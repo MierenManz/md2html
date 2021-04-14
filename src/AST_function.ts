@@ -4,8 +4,10 @@ import { NodeType } from "./AST_types.ts";
 export function normalLine(text: string, attributes: Attributes): Node {
   return {
     type: NodeType.NormalLine,
-    text: text,
-    attributes,
+    text: {
+      value: text,
+      attributes,
+    },
   };
 }
 
@@ -14,24 +16,31 @@ export function newLine(): Node {
     type: NodeType.NewLine,
   };
 }
+
 export function listNode(text: string, attributes: Attributes): Node {
   return {
     type: /^-\s+/.test(text) ? NodeType.UList : NodeType.SList,
-    text,
-    attributes,
+    text: {
+      value: text,
+      attributes,
+    },
   };
 }
+
 export function headerNode(text: string, attributes: Attributes): Node {
   return {
     type: NodeType.Header,
     header: `H${text.split(" ")[0].length}`,
-    text,
-    attributes,
+    text: {
+      value: text,
+      attributes,
+    },
   };
 }
 
 export function getAttributes(line: string): Attributes {
   return {
+    includeNextLine: !(line.endsWith("  ") || line.endsWith("\\")),
     imageOrLink: /\[(.*)\]\((.*)\)/.test(line),
     strike: /~~(.*)~~/.test(line),
     boldOrItalics: /\*(.*)\*|_(.*)_/.test(line),
