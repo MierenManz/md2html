@@ -1,7 +1,6 @@
 export enum NodeType {
   Header = "HEADER",
   NewLine = "NEW_LINE",
-  EmptyLine = "EMPTY_LINE",
   NormalLine = "NORMAL_LINE",
   UList = "UNSORTED_LIST",
   SList = "SORTED_LIST",
@@ -13,26 +12,13 @@ export interface Attributes {
   boldOrItalics: boolean;
 }
 
-export interface BaseNode {
+export interface Node {
   type: NodeType;
+  attributes?: Attributes;
+  header?: string;
+  text?: string;
 }
 
-export interface Markdown {
-  body: BaseNode[];
-}
-
-export interface HeaderNode extends BaseNode {
-  attributes: Attributes;
-  header: string;
-  text: string;
-}
-
-export interface ListNode extends BaseNode {
-  attributes: Attributes;
-  text: string;
-}
-
-export interface NormalNode extends BaseNode {
-  text: string;
-  attributes: Attributes;
+export interface AST {
+  body: Node[];
 }

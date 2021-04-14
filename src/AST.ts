@@ -1,4 +1,4 @@
-import type { Markdown } from "./AST_types.ts";
+import type { AST } from "./AST_types.ts";
 import {
   getAttributes,
   headerNode,
@@ -7,8 +7,8 @@ import {
   normalLine,
 } from "./AST_function.ts";
 
-export function generateAST(text: string): Markdown {
-  const markdown: Markdown = {
+export function generateAST(text: string): AST {
+  const markdown: AST = {
     body: [],
   };
   const charArray = text.replace(/\r\n/g, "\n").split("");

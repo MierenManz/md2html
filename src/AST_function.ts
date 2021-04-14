@@ -1,13 +1,7 @@
-import {
-  Attributes,
-  BaseNode,
-  HeaderNode,
-  ListNode,
-  NodeType,
-  NormalNode,
-} from "./AST_types.ts";
+import type { Attributes, Node } from "./AST_types.ts";
+import { NodeType } from "./AST_types.ts";
 
-export function normalLine(text: string, attributes: Attributes): NormalNode {
+export function normalLine(text: string, attributes: Attributes): Node {
   return {
     type: NodeType.NormalLine,
     text: text,
@@ -15,19 +9,19 @@ export function normalLine(text: string, attributes: Attributes): NormalNode {
   };
 }
 
-export function newLine(): BaseNode {
+export function newLine(): Node {
   return {
     type: NodeType.NewLine,
   };
 }
-export function listNode(text: string, attributes: Attributes): ListNode {
+export function listNode(text: string, attributes: Attributes): Node {
   return {
     type: /^-\s+/.test(text) ? NodeType.UList : NodeType.SList,
     text,
     attributes,
   };
 }
-export function headerNode(text: string, attributes: Attributes): HeaderNode {
+export function headerNode(text: string, attributes: Attributes): Node {
   return {
     type: NodeType.Header,
     header: `H${text.split(" ")[0].length}`,
