@@ -1,19 +1,27 @@
-import type { AST } from "./AST_types.ts";
-import { NodeType } from "./AST_types.ts";
 import { generateAST } from "./AST.ts";
-export function generateHTML(AST: AST): string {
-  // let html = "";
-  const length = AST.body.length;
-  for (let i = 0; i < length; i++) {
-    const node = AST.body[i];
-    console.log(node);
-  }
-  return "";
+
+export function generateHTMLfromString(string: string): string {
+  const AST = generateAST(string);
+  // const length = AST.body.length;
+  // for (let i = 0; i < length; i++) {
+  //   const node = AST.body[i];
+  //   console.log(node);
+  // }
+  return JSON.stringify(AST);
 }
 
-const md = Deno.readTextFileSync(Deno.args[0] ?? "backup.md");
-const s = performance.now();
-const generatedAST = generateAST(md);
-generateHTML(generatedAST);
-const ss = performance.now();
-console.log(ss - s);
+export function generateHTMLfromFile(file: string | URL): string {
+  return generateHTMLfromString(Deno.readTextFileSync(file));
+}
+
+export async function generateHTMLfromWeb(url: string | URL): Promise<string> {
+  const res = await fetch(url);
+  const contenttype = res.headers.get("content-type");
+  if (
+    res.status === 200 &&
+    (contenttype?.includes("text/markdown") ||
+      contenttype?.includes("text/plain"))
+  ) {
+    return generateHTMLfromString(await res.text());
+  } else throw Error("INVALID URL!");
+}
