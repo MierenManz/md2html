@@ -7,7 +7,6 @@ export enum NodeType {
 }
 
 export interface Attributes {
-  includeNextLine: boolean;
   imageOrLink: boolean;
   strike: boolean;
   boldOrItalics: boolean;
@@ -20,6 +19,7 @@ export interface Node {
   type: NodeType;
   header?: string;
   text?: Text;
+  includeNextLine: boolean;
 }
 
 export interface AST {
