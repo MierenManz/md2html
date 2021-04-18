@@ -14,7 +14,8 @@ export function generateAST(text: string): AST {
     if (char === "\n" || index === arrayLength) {
       let buff = {} as Node;
       line = line.trimStart();
-      if (line[0] === "#") {
+
+      if (/^[\#]{1,6}\s/.test(line)) {
         buff = headerNode(line);
       } else if (
         line.substring(0, 2) === "- " || line.substring(0, 2) === "* " ||
@@ -30,7 +31,7 @@ export function generateAST(text: string): AST {
       } else {
         buff = newLine();
       }
-      if (buff.text?.value !== "") markdown.body.push(buff);
+      if (buff.text !== "") markdown.body.push(buff);
 
       if (!buff.includeNextLine) markdown.body.push(newLine());
       line = "";
