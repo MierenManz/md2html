@@ -12,7 +12,7 @@ export function generateAST(text: string): AST {
   for (const [index, char] of charArray.entries()) {
     if (char !== "\n") line += char;
     if (char === "\n" || index === arrayLength) {
-      let buff: Node = {} as Node;
+      let buff = {} as Node;
       line = line.trimStart();
       if (line[0] === "#") {
         buff = headerNode(line);
@@ -27,8 +27,11 @@ export function generateAST(text: string): AST {
         }
       } else if (line !== "") {
         buff = normalLine(line);
+      } else {
+        buff = newLine();
       }
-      markdown.body.push(buff);
+      if (buff.text?.value !== "") markdown.body.push(buff);
+
       if (!buff.includeNextLine) markdown.body.push(newLine());
       line = "";
       i++;
