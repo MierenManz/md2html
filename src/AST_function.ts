@@ -12,8 +12,8 @@ export function normalLine(line: string): Node {
 export function newLine(): Node {
   return {
     type: NodeType.NewLine,
-    includeNextLine: false,
     text: "undefined",
+    includeNextLine: false,
   };
 }
 
@@ -30,6 +30,6 @@ export function headerNode(line: string): Node {
     type: NodeType.Header,
     header: `H${line.split(" ")[0].length}`,
     text: line,
-    includeNextLine: !(line.endsWith("  ") || line.endsWith("\\")),
+    includeNextLine: false,
   };
 }
